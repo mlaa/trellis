@@ -1,0 +1,34 @@
+---
+
+- name: "WordPress Import | create bin directory"
+  file:
+    dest="{{ www_root }}/{{ item.key }}/bin"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+    state="directory"
+  with_dict: "wordpress_sites"
+
+- name: "WordPress Import | commons install script"
+  template:
+    src="import.sh.j2"
+    dest="{{ www_root }}/{{ item.key }}/bin/import.sh"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+    mode="0744"
+  with_dict: "wordpress_sites"
+
+- name: "WordPress Import | self-signed certificate script"
+  template:
+    src="self-signed-certificate.sh.j2"
+    dest="{{ www_root }}/{{ item.key }}/bin/self-signed-certificate.sh"
+    mode="0755"
+  with_dict: "wordpress_sites"
+  tags:
+    - "self-signed"
+
+- name: "WordPress Import | copy OpenSSL config template"
+  copy:
+    src="self-signed-certificate-openssl-example.cnf"
+    dest="/etc/ssl/self-signed-certificate-openssl-example.cnf"
+  tags:
+    - "self-signed"

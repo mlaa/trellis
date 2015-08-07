@@ -1,0 +1,21 @@
+---
+
+- name: "Nullmailer | remove Exim"
+  apt:
+    name="exim4"
+    state="absent"
+  tags:
+    - "packages"
+
+- name: "Nullmailer | install"
+  apt:
+    name="nullmailer"
+    state="present"
+    update_cache="yes"
+  tags:
+    - "packages"
+
+- name: "Nullmailer | configuration"
+  template:
+    src="remotes.j2"
+    dest="/etc/nullmailer/remotes"

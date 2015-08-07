@@ -1,0 +1,6 @@
+---
+
+aws_default_region: "us-east-1"
+aws_access_key_id: "KEY"
+aws_secret_access_key: "SECRET"
+aws_route53_zone_id: "ZONEID"

@@ -1,0 +1,68 @@
+---
+
+# Overrides
+php_display_errors: "Off"
+strip_www: false
+
+# Define these variables via host vars or extra vars.
+# akismet_api_key
+# aws_default_region
+# aws_access_key_id
+# aws_secret_access_key
+# aws_route53_zone_id
+# cbox_auth_api_key
+# cbox_auth_api_secret
+# cbox_auth_api_url
+# fedora_proxy_url
+# mysql_root_password
+# nullmailer_smtp_host
+# nullmailer_smtp_user
+# nullmailer_smtp_password
+# wordpress_admin_email
+# wordpress_db_name
+# wordpress_db_user
+# wordpress_db_password
+# wordpress_smtp_from
+
+# Users and SSH public keys
+users:
+  - name: "{{ admin_user }}"
+    groups:
+      - "sudo"
+      - "{{ web_group }}"
+    keys:
+      - "https://github.com/chriszarate.keys"
+      - "https://github.com/rekmla.keys"
+
+# WordPress ENV variables to be merged into existing hash
+wordpress_sites:
+  commons:
+    env:
+      admin_email: "{{ wordpress_admin_email | default('admin@example.com') }}"
+      cbox_auth_api_key: "{{ cbox_auth_api_key | default(omit) }}"
+      cbox_auth_api_secret: "{{ cbox_auth_api_secret | default(omit) }}"
+      cbox_auth_api_url: "{{ cbox_auth_api_url | default(omit) }}"
+      db_name: "{{ wordpress_db_name | default('wordpress') }}"
+      db_user: "{{ wordpress_db_user | default('dbuser') }}"
+      db_password: "{{ wordpress_db_password | default('dbpass') }}"
+      global_smtp_from: "{{ wordpress_smtp_from | default(omit) }}"
+      wp_env: "development"
+      wp_home: "https://commons.mla.org"
+      wp_siteurl: "https://commons.mla.org"
+      wp_domain: "commons.mla.org"
+      wp_logs_dir: "{{ www_root }}/commons/logs"
+      wpcom_api_key: "{{ akismet_api_key | default(omit) }}"
+    multisite:
+      enabled: true
+      subdomains: true
+      base_path: "/"
+    repo: "git@github.com:mlaa/commons.git"
+    repo_branch: "develop"
+    site_hosts:
+      - "commons.mla.org"
+      - "*.commons.mla.org"
+    site_install: false
+    site_title: "MLA Commons"
+    ssl:
+      enabled: true
+    system_cron: false

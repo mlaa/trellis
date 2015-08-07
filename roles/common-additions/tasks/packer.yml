@@ -1,0 +1,8 @@
+---
+
+- name: "Packer | delete gitfile with relative gitdir from copied playbooks."
+  file:
+    path="/tmp/packer-provisioner-ansible-local/.git"
+    state="absent"
+  tags:
+    - "packer"

@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Generate wildcard self-signed TLS certificate.
+
+if [ -z "$1" ]; then
+  echo "This script is used by the import script. You usually don't need to"
+  echo "run it directly."
+  echo ""
+  echo "usage: $0 FQDN"
+  exit
+fi
+
+# Configuration files
+ca_conf="/etc/ca-certificates.conf"
+ca_cert_dir="/usr/share/ca-certificates/{{ item.key }}"
+ca_cert_file="$ca_cert_dir/self-signed-browser.crt"
+openssl_conf_example="/etc/ssl/self-signed-certificate-openssl-example.cnf"
+openssl_conf="/etc/ssl/self-signed-certificate-openssl.cnf"
+server_ssl_directory="/etc/nginx/ssl"
+server_private_key="$server_ssl_directory/{{ item.key }}_self_signed.key"
+server_cert="$server_ssl_directory/{{ item.key }}_self_signed.pem"
+
+# Create directories.
+mkdir -p $ca_cert_dir
+
+# Create OpenSSL template with our desired FQDN.
+sed "s/example.com/$1/g" $openssl_conf_example > $openssl_conf
+
+# Create self-signed SAN wildcard server certifcate.
+openssl req -new -nodes -x509 -batch -days 3650 -newkey rsa:2048 -keyout $server_private_key -out $server_cert -extensions v3_req -config $openssl_conf
+
+# Create self-signed SAN wildcard CA (browser) certificate.
+openssl req -new -nodes -x509 -batch -days 3650 -key $server_private_key -out $ca_cert_file -extensions v3_ca -config $openssl_conf
+
+# Update CA certificate conf.
+ca_cert_entry="{{ item.key }}/self-signed-browser.crt"
+if ! grep -FLxq "$ca_cert_entry" $ca_conf; then
+  echo "$ca_cert_entry" >> $ca_conf
+fi
+
+# Update CA certificates bundle.
+update-ca-certificates --fresh

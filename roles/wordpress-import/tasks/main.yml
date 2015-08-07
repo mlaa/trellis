@@ -1,0 +1,37 @@
+---
+
+- name: "WordPress Import | change webroot permissions"
+  file:
+    path="{{ www_root }}"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+    state="directory"
+    recurse="yes"
+
+- name: "WordPress Import | restore logs permissions"
+  file:
+    path="{{ www_root }}/{{ item.key }}/logs"
+    owner="{{ web_user }}"
+    group="{{ web_group }}"
+    mode="0755"
+    state="directory"
+  with_dict: "wordpress_sites"
+
+- name: "WordPress Import | create conf directory"
+  file:
+    path="{{ www_root }}/{{ item.key }}/conf"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+    state="directory"
+  with_dict: "wordpress_sites"
+
+- name: "WordPress Import | create .env template"
+  template:
+    src="env.j2"
+    dest="{{ www_root }}/{{ item.key }}/conf/env.template"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+  with_dict: "wordpress_sites"
+
+- include: "mysql.yml"
+- include: "scripts.yml"

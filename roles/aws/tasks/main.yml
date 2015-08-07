@@ -1,0 +1,10 @@
+---
+
+- include: "aws-credentials.yml"
+  when: "admin_user == 'vagrant'"
+
+- include: "aws-ec2-user-data.yml"
+  when: "admin_user != 'vagrant'"
+
+- include: "aws-route53.yml"
+  when: "admin_user != 'vagrant'"
