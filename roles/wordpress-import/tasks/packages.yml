@@ -1,0 +1,10 @@
+---
+
+- name: "WordPress Import | install packages specific to our installation"
+  apt:
+    pkg="{{ item }}"
+    state="latest"
+  with_items:
+    - "php5-imagick"
+  tags:
+    - "packages"

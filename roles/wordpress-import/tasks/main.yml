@@ -34,4 +34,5 @@
   with_dict: "wordpress_sites"
 
 - include: "mysql.yml"
+- include: "packages.yml"
 - include: "scripts.yml"
