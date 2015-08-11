@@ -5,3 +5,7 @@
 - include: "timezone.yml"
 - include: "known-hosts.yml"
 - include: "packer.yml"
+- include: "nodejs.yml"
+
+- include: "dev-tools.yml"
+  when: "'development' in group_names"

@@ -1,0 +1,17 @@
+---
+
+- name: "Node.js | import NodeSource GPG key"
+  apt_key:
+    url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    state="present"
+
+- name: "Node.js | add NodeSource deb repository"
+  apt_repository:
+    repo="deb https://deb.nodesource.com/node_{{ nodejs_version }} {{ ansible_distribution_release }} main"
+    state="present"
+
+- name: "Node.js | install"
+  apt:
+    pkg="nodejs={{ nodejs_version }}.*"
+    state="installed"
+    update_cache="yes"

@@ -5,12 +5,8 @@
     pkg="{{ item }}"
     state="latest"
   with_items:
-    - "ack-grep"
-    - "htop"
-    - "php5-imagick"
     - "python-setuptools"
     - "subversion"
-    - "tree"
     - "unzip"
   tags:
     - "packages"
