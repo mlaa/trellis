@@ -2,7 +2,6 @@
 
 - include: "packages.yml"
 - include: "networking.yml"
-- include: "timezone.yml"
 - include: "known-hosts.yml"
 - include: "packer.yml"
 - include: "nodejs.yml"
