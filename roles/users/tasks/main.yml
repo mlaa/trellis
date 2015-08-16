@@ -29,8 +29,16 @@
     validate: "/usr/sbin/visudo -cf %s"
   when: web_sudoers
 
+- name: Check that supplied local SSH keys exist
+  sudo: "no"
+  local_action: shell test -f {{ item }} && echo "{{ item }}"
+  ignore_errors: yes
+  register: existing_ssh_keys
+  with_items: "users | map(attribute='keys') | list"
+
 - name: Add SSH keys
-  authorized_key: user="{{ item.0.name }}" key="{{ item.1 }}"
+  authorized_key: user="{{ item.0.name }}" key="{{ lookup('file', item.1) }}"
+  when: "item.1 in existing_ssh_keys.results | map(attribute='stdout') | list"
   with_subelements:
     - users | default([])
     - keys
