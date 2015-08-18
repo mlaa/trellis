@@ -2,6 +2,5 @@
 
 - include: "packages.yml"
 - include: "environment.yml"
-- include: "packer.yml"
 - include: "nodejs.yml"
 - include: "composer.yml"

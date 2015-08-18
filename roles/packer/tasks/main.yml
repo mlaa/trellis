@@ -4,5 +4,3 @@
   file:
     path="/tmp/packer-provisioner-ansible-local/.git"
     state="absent"
-  tags:
-    - "packer"

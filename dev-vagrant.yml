@@ -10,6 +10,7 @@
     - "vars/commons.yml"
 
   roles:
+    - { role: packer, tags: [packer] }
     - { role: common, tags: [common] }
     - { role: aws, tags: [aws] }
     - { role: fail2ban, tags: [fail2ban] }

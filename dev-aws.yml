@@ -12,6 +12,7 @@
     - "vars/sudoer_passwords.yml"
 
   roles:
+    - { role: packer, tags: [packer] }
     - { role: common, tags: [common] }
     - { role: sshd, tags: [sshd, server] }
     - { role: aws, tags: [aws] }
