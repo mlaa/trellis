@@ -1,7 +1,6 @@
 ---
 
 - include: "packages.yml"
-- include: "networking.yml"
 - include: "known-hosts.yml"
 - include: "packer.yml"
 - include: "nodejs.yml"
