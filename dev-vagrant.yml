@@ -11,7 +11,6 @@
 
   roles:
     - { role: common, tags: [common] }
-    - { role: common-additions, tags: [common, common-additions] }
     - { role: aws, tags: [aws] }
     - { role: fail2ban, tags: [fail2ban] }
     - { role: ferm, tags: [ferm] }
@@ -26,5 +25,6 @@
     - { role: memcached, tags: [memcached] }
     - { role: composer, tags: [composer] }
     - { role: wp-cli, tags: [wp-cli] }
+    - { role: dev-tools, tags: [dev-tools] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
     - { role: wordpress-import, tags: [wordpress, wordpress-import] }
