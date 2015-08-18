@@ -15,3 +15,15 @@
     pkg="nodejs={{ nodejs_version }}.*"
     state="installed"
     update_cache="yes"
+
+- name: "Node.js | install global npm packages"
+  npm:
+    name="{{ item }}"
+    global="yes"
+    state="present"
+  with_items:
+    - "bower"
+    - "forever"
+    - "grunt-cli"
+    - "gulp"
+    - "yo"
