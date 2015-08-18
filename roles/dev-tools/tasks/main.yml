@@ -4,3 +4,4 @@
 - include: "known-hosts.yml"
 - include: "packer.yml"
 - include: "nodejs.yml"
+- include: "composer.yml"
