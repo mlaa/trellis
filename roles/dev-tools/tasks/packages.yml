@@ -1,6 +1,6 @@
 ---
 
-- name: "Common Additions | install packages"
+- name: "Dev tools | install packages"
   apt:
     pkg="{{ item }}"
     state="latest"
@@ -8,19 +8,20 @@
     - "ack-grep"
     - "htop"
     - "python-setuptools"
+    - "silversearcher-ag"
     - "subversion"
     - "tree"
     - "unzip"
   tags:
     - "packages"
 
-- name: "Common Additions | install pip"
+- name: "Dev tools | install pip"
   easy_install:
     name="pip"
   tags:
     - "packages"
 
-- name: "Common Additions | install aws-cli"
+- name: "Dev tools | install aws-cli"
   pip:
     name="awscli"
   tags:
