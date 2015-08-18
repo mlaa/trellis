@@ -23,6 +23,27 @@ if [ "$(id -u)" = "0" ]; then
    exit 1
 fi
 
+# Attempt to set git config.
+if [ -z `git config --global --get user.name` ]; then
+  git_username=`ssh git@github.com 2>&1 >/dev/null | grep -Po 'Hi [^!]+' | awk '{ print $2 }'`
+  if [ -z "$git_username" ]; then
+    read -p "Enter your git config username: " git_username
+  fi
+  if [ ! -z "$git_username" ]; then
+    git config --global user.name "$git_username"
+  fi
+fi
+
+if [ -z `git config --global --get user.email` ]; then
+  git_email=`curl -s https://api.github.com/users/$git_username | grep -Po '"email": "[^"]+"' | awk '{ gsub(/"/, "", $2); print $2 }'`
+  if [ -z "$git_email" ]; then
+    read -p "Enter your git config e-mail: " git_email
+  fi
+  if [ ! -z "$git_email" ]; then
+    git config --global user.email "$git_email"
+  fi
+fi
+
 # Get FQDN.
 fqdn=`hostname -f`
 
