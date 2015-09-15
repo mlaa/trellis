@@ -16,9 +16,6 @@ strip_www: false
 # cbox_auth_api_url
 # fedora_proxy_url
 # mysql_root_password
-# nullmailer_smtp_host
-# nullmailer_smtp_user
-# nullmailer_smtp_password
 # wordpress_admin_email
 # wordpress_db_name
 # wordpress_db_user

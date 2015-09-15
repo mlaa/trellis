@@ -1,5 +1,7 @@
 ---
 
-nullmailer_smtp_host: "smtp.example.com"
-nullmailer_smtp_user: "user"
-nullmailer_smtp_password: "password"
+mail_smtp_server: "localhost:1025"
+mail_starttls: true
+mail_ssl: false
+mail_user: "smtp_user"
+mail_password: "smtp_password"
