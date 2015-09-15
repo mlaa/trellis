@@ -55,7 +55,7 @@ wordpress_sites:
       subdomains: true
       base_path: "/"
     repo: "git@github.com:mlaa/commons.git"
-    repo_branch: "develop"
+    repo_branch: "master"
     site_hosts:
       - "commons.mla.org"
       - "*.commons.mla.org"
