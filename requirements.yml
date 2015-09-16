@@ -9,3 +9,7 @@
   src: kamaln7.swapfile
 - name: mailhog
   src: geerlingguy.mailhog
+- name: newrelic-php
+  src: franklinkim.php5-newrelic
+- name: newrelic-system
+  src: sivel.newrelic

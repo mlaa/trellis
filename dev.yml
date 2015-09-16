@@ -3,7 +3,6 @@
   hosts: web
   sudo: yes
   vars_files:
-    - "vars/commons.yml"
     - "vars/sudoer_passwords.yml"
 
   roles:
@@ -25,6 +24,8 @@
     - { role: logrotate, tags: [logrotate] }
     - { role: memcached, tags: [memcached] }
     - { role: composer, tags: [composer] }
+    - { role: newrelic-php, tags: [newrelic] }
+    - { role: newrelic-system, tags: [newrelic] }
     - { role: wp-cli, tags: [wp-cli] }
     - { role: dev-tools, tags: [dev-tools] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
