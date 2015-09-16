@@ -2,16 +2,21 @@
 - name: "WordPress Server: Install LEMP Stack with PHP 5.6 and MariaDB MySQL"
   hosts: web
   sudo: yes
-  remote_user: vagrant
+  vars_files:
+    - "vars/commons.yml"
+    - "vars/sudoer_passwords.yml"
 
   roles:
+    - { role: packer, tags: [packer] }
     - { role: common, tags: [common] }
+    - { role: aws, tags: [aws] }
     - { role: fail2ban, tags: [fail2ban] }
     - { role: ferm, tags: [ferm] }
     - { role: ntp }
+    - { role: users, tags: [users] }
     - { role: sshd, tags: [sshd] }
     - { role: mariadb, tags: [mariadb], when: not mysql_remote_database }
-    - { role: ssmtp, tags: [ssmtp mail] }
+    - { role: nullmailer, tags: [nullmailer mail] }
     - { role: mailhog, tags: [mailhog mail] }
     - { role: php, when: not hhvm, tags: [php] }
     - { role: hhvm, when: hhvm, tags: [hhvm] }
@@ -21,5 +26,6 @@
     - { role: memcached, tags: [memcached] }
     - { role: composer, tags: [composer] }
     - { role: wp-cli, tags: [wp-cli] }
+    - { role: dev-tools, tags: [dev-tools] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
-    - { role: wordpress-install, tags: [wordpress, wordpress-install] }
+    - { role: wordpress-import, tags: [wordpress, wordpress-import] }
