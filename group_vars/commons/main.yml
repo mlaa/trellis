@@ -1,9 +1,9 @@
 ---
 
 # Overrides
-sshd_permit_root_login: "no"
 default_timezone: "America/New_York"
 php_display_errors: "Off"
+sshd_permit_root_login: false
 strip_www: false
 
 # In addition to the ENV variables used in `wordpress_sites.yml`, define the
