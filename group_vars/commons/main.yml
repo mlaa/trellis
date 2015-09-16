@@ -1,0 +1,25 @@
+---
+
+# Overrides
+sshd_permit_root_login: "no"
+default_timezone: "America/New_York"
+php_display_errors: "Off"
+strip_www: false
+
+# In addition to the ENV variables used in `wordpress_sites.yml`, define the
+# following variables via host vars or extra vars:
+#
+# aws_default_region
+# aws_access_key_id
+# aws_secret_access_key
+# aws_route53_zone_id
+# fedora_proxy_url
+# mysql_root_password
+# newrelic_license_key
+
+# For production hosts, additionally define/override these variables:
+#
+# mail_smtp_server: "server.example.com:port"
+# mail_user
+# mail_password
+# php5_newrelic_appname

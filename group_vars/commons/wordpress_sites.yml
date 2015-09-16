@@ -1,39 +1,5 @@
 ---
 
-# Overrides
-sshd_permit_root_login: "no"
-default_timezone: "America/New_York"
-php_display_errors: "Off"
-strip_www: false
-
-# Define these variables via host vars or extra vars.
-# akismet_api_key
-# aws_default_region
-# aws_access_key_id
-# aws_secret_access_key
-# aws_route53_zone_id
-# cbox_auth_api_key
-# cbox_auth_api_secret
-# cbox_auth_api_url
-# fedora_proxy_url
-# mysql_root_password
-# wordpress_admin_email
-# wordpress_db_name
-# wordpress_db_user
-# wordpress_db_password
-# wordpress_smtp_from
-
-# Users and SSH public keys
-users:
-  - name: "{{ admin_user }}"
-    groups:
-      - "sudo"
-      - "{{ web_group }}"
-    keys:
-      - "https://github.com/chriszarate.keys"
-      - "https://github.com/rekmla.keys"
-
-# WordPress ENV variables to be merged into existing hash
 wordpress_sites:
   commons:
     env:
@@ -45,7 +11,7 @@ wordpress_sites:
       db_user: "{{ wordpress_db_user | default('dbuser') }}"
       db_password: "{{ wordpress_db_password | default('dbpass') }}"
       global_smtp_from: "{{ wordpress_smtp_from | default(omit) }}"
-      wp_env: "development"
+      wp_env: "{{ ('production' in group_names) | ternary('production', 'development') }}"
       wp_home: "https://commons.mla.org"
       wp_siteurl: "https://commons.mla.org"
       wp_domain: "commons.mla.org"

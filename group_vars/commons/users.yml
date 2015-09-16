@@ -1,0 +1,8 @@
+users:
+  - name: "{{ admin_user }}"
+    groups:
+      - "sudo"
+      - "{{ web_group }}"
+    keys:
+      - "https://github.com/chriszarate.keys"
+      - "https://github.com/rekmla.keys"
