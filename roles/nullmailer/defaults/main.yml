@@ -1,7 +1,7 @@
 ---
 
 mail_smtp_server: "localhost:1025"
-mail_starttls: true
+mail_starttls: false
 mail_ssl: false
 mail_user: "smtp_user"
 mail_password: "smtp_password"

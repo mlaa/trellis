@@ -1,1 +1,1 @@
-{{ mail_smtp_server | regex_replace(':[0-9]+$', '') }} smtp --port={{ mail_smtp_server | regex_replace('^[^:]+:([0-9]+)$', '\\1') }} {{ (mail_starttls) | ternary('--starttls', '') }} {{ (mail_ssl) | ternary('--ssl', '') }} --user={{ mail_user }} --pass={{ mail_password }}
+{{ mail_smtp_server | regex_replace(':[0-9]+$', '') }} smtp --port={{ mail_smtp_server | regex_replace('^[^:]+:([0-9]+)$', '\\1') }} {{ mail_starttls | ternary('--starttls', '') }} {{ mail_ssl | ternary('--ssl', '') }} --user={{ mail_user }} --pass={{ mail_password }}
