@@ -7,7 +7,7 @@
 current_date=`date +%Y%m%d`
 project_bin_dir="{{ www_root }}/{{ item.key }}/bin"
 project_root_dir="{{ www_root }}/{{ item.key }}/current"
-project_env_template="{{ www_root }}/{{ item.key }}/conf/env.template"
+project_env_file="$project_root_dir/.env"
 nginx_conf_dir="/etc/nginx/sites-available"
 restore_dir="/tmp/wordpress-restore"
 package_dir="/tmp/wordpress-packages"
@@ -93,7 +93,7 @@ gunzip -c $restore_dir/mysql.backup.sql.gz | mysql {{ item.value.env.db_name }}
 
 # Populate .env with development domain.
 echo "Updating project environment...."
-sed "s/$production_domain_regex/$fqdn/g" $project_env_template > $project_root_dir/.env
+sed -i "s/$production_domain_regex/$fqdn/g" $project_env_file
 
 # Create wp-cli.local.yml with development domain.
 echo "url: http://$fqdn" > $project_root_dir/wp-cli.local.yml
