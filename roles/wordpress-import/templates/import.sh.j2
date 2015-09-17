@@ -10,12 +10,12 @@ project_root_dir="{{ www_root }}/{{ item.key }}/current"
 project_env_file="$project_root_dir/.env"
 nginx_conf_dir="/etc/nginx/sites-available"
 restore_dir="/tmp/wordpress-restore"
-package_dir="/tmp/wordpress-packages"
+private_packages_local_dir="{{ private_packages_local_dir }}"
 production_domain_regex="{{ item.value.env.wp_domain | regex_replace('\\.', '\\\\.') }}"
 
 mysql_s3_restore_file="s3://mla-backup/commons/db/daily/commons-db_$current_date.sql.gz"
 wordpress_s3_restore_file="s3://mla-backup/commons/www/daily/commons-www_$current_date.tar.gz"
-private_packages_dir="s3://mla-backup/commons/packages"
+private_packages_s3_bucket="{{ private_packages_s3_bucket }}"
 
 # Make sure script is not run by root.
 if [ "$(id -u)" = "0" ]; then
@@ -65,10 +65,9 @@ mkdir -p $restore_dir
 aws s3 cp $wordpress_s3_restore_file $restore_dir/wordpress.backup.tar.gz
 aws s3 cp $mysql_s3_restore_file $restore_dir/mysql.backup.sql.gz
 
-# Copy private packages.
-echo "Downloading private packages...."
-mkdir -p $package_dir
-aws s3 sync $private_packages_dir $package_dir
+# Update private packages.
+echo "Updating private packages...."
+aws s3 sync $private_packages_s3_bucket $private_packages_local_dir
 
 # Clone project and install dependencies.
 if [ ! -d "$project_root_dir/.git" ]; then

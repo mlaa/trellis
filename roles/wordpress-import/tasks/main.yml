@@ -17,7 +17,26 @@
     state="directory"
   with_dict: "wordpress_sites"
 
-- name: "WordPress Import | create .env template"
+- name: "WordPress Import | create project directory"
+  file:
+    path="{{ www_root }}/{{ item.key }}/current"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+    state="directory"
+  with_dict: "wordpress_sites"
+
+- name: "WordPress Import | create private packages directory"
+  file:
+    path="{{ private_packages_local_dir }}"
+    owner="{{ admin_user }}"
+    group="{{ admin_user }}"
+    state="directory"
+
+- name: "WordPress Import | download private packages"
+  sudo: "no"
+  shell: aws s3 sync {{ private_packages_s3_bucket }} {{ private_packages_local_dir }}
+
+- name: "WordPress Import | create .env"
   template:
     src="env.j2"
     dest="{{ www_root }}/{{ item.key }}/current/.env"
