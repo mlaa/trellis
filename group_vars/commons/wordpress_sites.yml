@@ -7,6 +7,7 @@ wordpress_sites:
       cbox_auth_api_key: "{{ cbox_auth_api_key | default(omit) }}"
       cbox_auth_api_secret: "{{ cbox_auth_api_secret | default(omit) }}"
       cbox_auth_api_url: "{{ cbox_auth_api_url | default(omit) }}"
+      db_host: "{{ wordpress_db_host | default('localhost') }}"
       db_name: "{{ wordpress_db_name | default('wordpress') }}"
       db_user: "{{ wordpress_db_user | default('dbuser') }}"
       db_password: "{{ wordpress_db_password | default('dbpass') }}"
