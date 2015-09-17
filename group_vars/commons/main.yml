@@ -14,13 +14,18 @@ strip_www: false
 # aws_access_key_id
 # aws_secret_access_key
 # aws_route53_zone_id
+# composer_github_access_token
 # fedora_proxy_url
 # mysql_root_password
+# mysql_s3_restore_dir
 # newrelic_license_key
+# private_packages_s3_bucket
+# wordpress_s3_restore_dir
 
 # For production hosts, additionally define/override these variables:
 #
 # mail_smtp_server: "server.example.com:port"
 # mail_user
 # mail_password
+# mysql_remote_database
 # php5_newrelic_appname
