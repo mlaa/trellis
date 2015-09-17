@@ -6,6 +6,7 @@
     state="present"
     regexp="^mysql"
     line="mysql hard nofile 32768"
+  when: "not mysql_remote_database"
   tags:
     - "mysql"
 
@@ -16,6 +17,7 @@
     regexp="^open_files_limit"
     line="open_files_limit = 32768"
     insertafter="^\[mysqld\]"
+  when: "not mysql_remote_database"
   notify: "restart mysql"
   tags:
     - "mysql"
@@ -26,5 +28,6 @@
     src="user.my.cnf.j2"
     dest="~/.my.cnf"
     mode="0600"
+  when: "not mysql_remote_database"
   tags:
     - "mysql"
