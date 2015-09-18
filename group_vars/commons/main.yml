@@ -18,10 +18,10 @@ sudoer_passwordless: true
 # composer_github_access_token
 # fedora_proxy_url
 # mysql_root_password
-# mysql_s3_restore_dir
+# mysql_backup_s3_dir
 # newrelic_license_key
-# private_packages_s3_bucket
-# wordpress_s3_restore_dir
+# private_packages_s3_dir
+# wordpress_uploads_s3_dir
 
 # For production hosts, additionally define/override these variables:
 #

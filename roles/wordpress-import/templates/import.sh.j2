@@ -9,13 +9,12 @@ project_bin_dir="{{ www_root }}/{{ item.key }}/bin"
 project_root_dir="{{ www_root }}/{{ item.key }}/current"
 project_env_file="$project_root_dir/.env"
 nginx_conf_dir="/etc/nginx/sites-available"
-restore_dir="/tmp/wordpress-restore"
 private_packages_local_dir="{{ private_packages_local_dir }}"
 production_domain_regex="{{ item.value.env.wp_domain | regex_replace('\\.', '\\\\.') }}"
 
-mysql_s3_restore_file="{{ mysql_s3_restore_dir }}/commons-db_$current_date.sql.gz"
-wordpress_s3_restore_dir="{{ wordpress_s3_restore_dir }}"
-private_packages_s3_bucket="{{ private_packages_s3_bucket }}"
+mysql_backup_s3_file="{{ mysql_backup_s3_dir }}/commons-db_$current_date.sql.gz"
+wordpress_uploads_s3_dir="{{ wordpress_uploads_s3_dir }}"
+private_packages_s3_dir="{{ private_packages_s3_dir }}"
 
 # Make sure script is not run by root.
 if [ "$(id -u)" = "0" ]; then
@@ -61,34 +60,36 @@ mkdir -p $project_root_dir
 
 # Download database backup.
 echo "Downloading database backup...."
-mkdir -p $restore_dir
-aws s3 cp $wordpress_s3_restore_file $restore_dir/wordpress.backup.tar.gz
+aws s3 cp $mysql_backup_s3_file /tmp/mysql.backup.sql.gz >> $project_bin_dir/import.log
 
 # Update private packages.
 echo "Updating private packages...."
-aws s3 sync $private_packages_s3_bucket $private_packages_local_dir
+aws s3 sync $private_packages_s3_dir $private_packages_local_dir --delete >> $project_bin_dir/import.log
 
 # Clone project and install dependencies.
 if [ ! -d "$project_root_dir/.git" ]; then
+  echo "Cloning project repo..."
   cd $project_root_dir
   git init
   git remote add origin {{ item.value.repo }}
-  git fetch
-  git checkout -t origin/{{ item.value.repo_branch }}
+  git fetch --all
+  git checkout -f -t origin/{{ item.value.repo_branch }}
+  echo "Installing dependencies..."
   composer install
 fi
 
 # Update WP uploads.
 echo "Updating WP uploads...."
-aws s3 sync $wordpress_s3_restore_dir/blogs.dir $project_root_dir/web/app/blogs.dir
-aws s3 sync $wordpress_s3_restore_dir/uploads $project_root_dir/web/app/uploads
-{% if web_user != "vagrant" %}
-sudo chown -R {{ web_user }}:{{ web_group }} $project_root_dir/web/app/blogs.dir $project_root_dir/web/app/uploads
-{% endif %}
+for dir in blogs.dir uploads; do
+  aws s3 sync $wordpress_uploads_s3_dir/$dir $project_root_dir/web/app/$dir --delete >> $project_bin_dir/import.log
+  {% if web_user != "vagrant" %}
+  sudo chown -R {{ web_user }}:{{ web_group }} $project_root_dir/web/app/$dir
+  {% endif %}
+done
 
 # Extract database backup and replace existing database.
 echo "Loading database backup...."
-gunzip -c $restore_dir/mysql.backup.sql.gz | mysql {{ item.value.env.db_name }}
+gunzip -c /tmp/mysql.backup.sql.gz | mysql {{ item.value.env.db_name }}
 
 # Populate .env with development domain.
 echo "Updating project environment...."
@@ -98,7 +99,7 @@ sed -i "s/$production_domain_regex/$fqdn/g" $project_env_file
 echo "url: http://$fqdn" > $project_root_dir/wp-cli.local.yml
 
 # Generate self-signed certificate.
-sudo $project_bin_dir/self-signed-certificate.sh $fqdn
+sudo $project_bin_dir/self-signed-certificate.sh $fqdn >> $project_bin_dir/import.log
 
 # Update nginx configuration to use development domain.
 echo "Updating nginx configuration...."
@@ -114,4 +115,4 @@ wp search-replace \
 --network \
 --url="{{ item.value.env.wp_domain }}" \
 --path="$project_root_dir/web/wp" \
-"{{ item.value.env.wp_domain }}" "$fqdn"
+"{{ item.value.env.wp_domain }}" "$fqdn" >> $project_bin_dir/import.log
