@@ -6,6 +6,7 @@ php_display_errors: "Off"
 php_sendmail_path: "/usr/sbin/sendmail -t -i"
 sshd_permit_root_login: false
 strip_www: false
+sudoer_passwordless: true
 
 # In addition to the ENV variables used in `wordpress_sites.yml`, define the
 # following variables via host vars or extra vars:
