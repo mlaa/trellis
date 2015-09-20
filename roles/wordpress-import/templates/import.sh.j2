@@ -75,7 +75,7 @@ if [ ! -d "$project_root_dir/.git" ]; then
   git fetch --all
   git checkout -f -t origin/{{ item.value.repo_branch }}
   echo "Installing dependencies..."
-  composer install
+  composer install --prefer-source
 fi
 
 # Update WP uploads.
