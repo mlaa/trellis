@@ -26,7 +26,6 @@ wordpress_sites:
     repo_branch: "master"
     site_hosts:
       - "commons.mla.org"
-      - "*.commons.mla.org"
     site_install: false
     site_title: "MLA Commons"
     ssl:
