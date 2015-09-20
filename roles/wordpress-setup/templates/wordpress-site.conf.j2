@@ -40,10 +40,10 @@ server {
 
   add_header Strict-Transport-Security "max-age=31536000; includeSubdomains; preload";
 
-  {% if item.value.ssl.cert is defined and item.value.ssl.key is defined %}
-  ssl_certificate         /etc/nginx/ssl/{{ item.value.ssl.cert | basename }};
-  ssl_trusted_certificate /etc/nginx/ssl/{{ item.value.ssl.cert | basename }};
-  ssl_certificate_key     /etc/nginx/ssl/{{ item.value.ssl.key | basename }};
+  {% if 'production' in group_names %}
+  ssl_certificate         /etc/nginx/ssl/{{ item.key }}.pem;
+  ssl_trusted_certificate /etc/nginx/ssl/{{ item.key }}.pem;
+  ssl_certificate_key     /etc/nginx/ssl/{{ item.key }}.key;
   {% else %}
   ssl_certificate         /etc/nginx/ssl/{{ item.key }}_self_signed.pem;
   ssl_trusted_certificate /etc/nginx/ssl/{{ item.key }}_self_signed.pem;
