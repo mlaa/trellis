@@ -9,8 +9,11 @@ project_bin_dir="{{ www_root }}/{{ item.key }}/bin"
 project_root_dir="{{ www_root }}/{{ item.key }}/current"
 project_env_file="$project_root_dir/.env"
 nginx_conf_dir="/etc/nginx/sites-available"
-private_packages_local_dir="{{ private_packages_local_dir }}"
 production_domain_regex="{{ item.value.env.wp_domain | regex_replace('\\.', '\\\\.') }}"
+
+private_packages_local_dir="{{ private_packages_local_dir }}"
+wordpress_config_local_dir="{{ wordpress_config_local_dir }}"
+wordpress_uploads_local_dir="{{ wordpress_uploads_local_dir }}"
 
 mysql_backup_s3_file="{{ mysql_backup_s3_dir }}/commons-db_$current_date.sql.gz"
 wordpress_uploads_s3_dir="{{ wordpress_uploads_s3_dir }}"
@@ -81,6 +84,10 @@ fi
 # Update WP uploads.
 echo "Updating WP uploads...."
 for dir in blogs.dir uploads; do
+  if [ -d "$wordpress_uploads_local_dir/{{ item.key }}/$dir" ]; then
+    rm -rf $project_root_dir/web/app/$dir
+    mv $wordpress_uploads_local_dir/{{ item.key }}/$dir $project_root_dir/web/app/
+  fi
   aws s3 sync $wordpress_uploads_s3_dir/$dir $project_root_dir/web/app/$dir --delete >> $project_bin_dir/import.log
   {% if web_user != "vagrant" %}
   sudo chown -R {{ web_user }}:{{ web_group }} $project_root_dir/web/app/$dir
@@ -93,7 +100,7 @@ gunzip -c /tmp/mysql.backup.sql.gz | mysql {{ item.value.env.db_name }}
 
 # Populate .env with development domain.
 echo "Updating project environment...."
-sed -i "s/$production_domain_regex/$fqdn/g" $project_env_file
+sed "s/$production_domain_regex/$fqdn/g" $wordpress_config_local_dir/{{ item.key }}/.env > $project_env_file
 
 # Create wp-cli.local.yml with development domain.
 echo "url: http://$fqdn" > $project_root_dir/wp-cli.local.yml
