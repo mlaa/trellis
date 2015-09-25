@@ -50,7 +50,7 @@
   changed_when: false
   sudo: no
   register: admin_user_status
-  when: not sshd_permit_root_login and inventory_hostname != '127.0.0.1'
+  when: not sshd_permit_root_login and ansible_ssh_host is defined
 
 - name: Fail if root login will be disabled but admin_user cannot connect
   fail:
