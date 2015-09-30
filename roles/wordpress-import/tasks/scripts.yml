@@ -4,7 +4,7 @@
   file:
     dest="{{ www_root }}/{{ item.key }}/bin"
     owner="{{ admin_user }}"
-    group="{{ admin_user }}"
+    group="{{ admin_user_group }}"
     state="directory"
   with_dict: "wordpress_sites"
 
@@ -13,7 +13,7 @@
     src="import.sh.j2"
     dest="{{ www_root }}/{{ item.key }}/bin/import.sh"
     owner="{{ admin_user }}"
-    group="{{ admin_user }}"
+    group="{{ admin_user_group }}"
     mode="0744"
   with_dict: "wordpress_sites"
 

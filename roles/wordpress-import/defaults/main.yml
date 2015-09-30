@@ -1,4 +1,5 @@
 ---
 
+admin_user_group: "staff"
 private_packages_local_dir: "/usr/local/share/wordpress-packages"
 wordpress_config_local_dir: "/usr/local/share/wordpress-config"

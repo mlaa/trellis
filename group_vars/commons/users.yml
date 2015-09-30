@@ -19,6 +19,8 @@ users:
     keys: []
   - name: "{{ admin_user }}"
     groups:
+      - "adm"
+      - "staff"
       - "sudo"
       - "{{ web_group }}"
     keys:
