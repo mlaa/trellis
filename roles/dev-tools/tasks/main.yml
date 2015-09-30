@@ -4,3 +4,4 @@
 - include: "environment.yml"
 - include: "nodejs.yml"
 - include: "composer.yml"
+- include: "wp-cli.yml"

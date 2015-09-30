@@ -1,0 +1,4 @@
+---
+
+require:
+  - commands/bp/wp-cli-bp.php

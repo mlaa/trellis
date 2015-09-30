@@ -1,0 +1,28 @@
+---
+
+- name: "Dev tools | create wp-cli commands dir"
+  sudo: "no"
+  file:
+    path="{{ wp_cli_config_directory }}/commands"
+    state="directory"
+    recurse="yes"
+  tags:
+    - "wp-cli"
+
+- name: "Dev tools | create wp-cli config"
+  sudo: "no"
+  copy:
+    src="config.yml"
+    dest="{{ wp_cli_config_directory }}/config.yml"
+    mode="644"
+  tags:
+    - "wp-cli"
+
+- name: "Dev tools | install bp-cli"
+  sudo: "no"
+  git:
+    repo="{{ wp_cli_bp_git_repo }}"
+    dest="{{ wp_cli_config_directory }}/commands/bp"
+    version="master"
+  tags:
+    - "wp-cli"
