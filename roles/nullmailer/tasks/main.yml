@@ -11,7 +11,6 @@
   apt:
     name="nullmailer"
     state="present"
-    update_cache="yes"
   tags:
     - "packages"
 
@@ -19,3 +18,5 @@
   template:
     src="remotes.j2"
     dest="/etc/nullmailer/remotes"
+  tags:
+    - "packages"
