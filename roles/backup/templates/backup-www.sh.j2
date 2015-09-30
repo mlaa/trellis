@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Sync a directory to a versioned S3 bucket. Use lifecycle rules to keep
+# size manageable.
+
+# Example cron entry (:05 of every hour):
+# 5  *  *  *  *  {{ backup_script_dir }}/backup-www.sh >/dev/null 2>&1
+
+
+# Exit on error.
+set -e
+
+BACKUP_SLUG="{{ item }}-www"
+SOURCE_DIR="{{ www_root }}/{{ item }}/current/web/app"
+
+AWS_CLI="/usr/local/bin/aws"
+S3_DIR="{{ wordpress_uploads_s3_dir }}"
+S3_FLAGS="--sse --delete"
+
+# Sync to S3
+$AWS_CLI s3 sync $SOURCE_DIR $S3_DIR $S3_FLAGS 2>&1 | logger -t backup.${BACKUP_SLUG}
+
+# Publish CloudWatch metrics.
+$AWS_CLI cloudwatch put-metric-data --namespace "Backup" --metric-name "HourlyBackup" --dimensions "Agent=$BACKUP_SLUG" --value "1"

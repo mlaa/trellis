@@ -26,5 +26,6 @@
     - { role: newrelic-system, tags: [newrelic] }
     - { role: wp-cli, tags: [wp-cli] }
     - { role: dev-tools, tags: [dev-tools] }
+    - { role: backup, tags: [backup] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
     - { role: wordpress-import, tags: [wordpress, wordpress-import] }

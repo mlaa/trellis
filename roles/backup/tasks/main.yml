@@ -1,0 +1,25 @@
+---
+
+- name: "Backup | create bin directory"
+  file:
+    path="{{ backup_script_dir }}"
+    mode="0755"
+    state="directory"
+
+- name: "Backup | create backup script"
+  template:
+    src="backup-www.sh.j2"
+    dest="{{ backup_script_dir }}/backup-www-{{ item }}.sh"
+    mode="0755"
+  with_items: "wordpress_sites.keys()"
+  when: "'production' in group_names"
+
+- name: "Backup | create backup cron job"
+  cron:
+    name="{{ item }} WordPress www backup"
+    special_time="hourly"
+    user="{{ admin_user }}"
+    job="{{ backup_script_dir }}/backup-www-{{ item }}.sh >/dev/null 2>&1"
+    cron_file="wordpress-{{ item }}-backup-www"
+  with_items: "wordpress_sites.keys()"
+  when: "'production' in group_names"
