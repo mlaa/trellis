@@ -35,23 +35,6 @@
     state="directory"
   with_items: "wordpress_sites.keys()"
 
-- name: "WordPress Import | create wordpress uploads subdirectories"
-  sudo: "no"
-  file:
-    path="{{ www_root }}/{{ item[0] }}/uploads/{{ item[1] }}"
-    state="directory"
-    recurse="yes"
-  with_nested:
-    - "wordpress_sites.keys()"
-    - ["blogs.dir", "uploads"]
-
-- name: "WordPress Import | download wordpress uploads"
-  sudo: "no"
-  shell: aws s3 sync {{ wordpress_uploads_s3_dir }}/{{ item[1] }} {{ www_root }}/{{ item[0] }}/uploads/{{ item[1] }} --only-show-errors --delete
-  with_nested:
-    - "wordpress_sites.keys()"
-    - ["blogs.dir", "uploads"]
-
 - name: "WordPress Import | download private packages"
   sudo: "no"
   shell: aws s3 sync {{ private_packages_s3_dir }} {{ private_packages_local_dir }} --only-show-errors --delete
@@ -63,6 +46,8 @@
     dest="{{ wordpress_config_local_dir }}/{{ item.key }}/.env"
   with_dict: "wordpress_sites"
 
+- include: "dev.yml"
+  when: "'production' not in group_names"
+
 - include: "mysql.yml"
 - include: "packages.yml"
-- include: "scripts.yml"
