@@ -2,6 +2,7 @@
 
 # Overrides
 default_timezone: "America/New_York"
+mailhog_install_ssmtp: no
 php_display_errors: "Off"
 php_sendmail_path: "/usr/sbin/sendmail -t -i"
 sshd_permit_root_login: false
