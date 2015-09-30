@@ -1,4 +1,22 @@
+---
+
+# Our Vagrant set up requires password auth to Vagrant, and Trellis is
+# aggressive about setting passwords for the admin user. Since we want
+# Vagrant to be the admin user, we need to make sure we don't nuke the
+# default password ("vagrant").
+
+# http://docs.ansible.com/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+# `mkpasswd --method=SHA-512 --rounds=10000`
+sudoer_passwords:
+  vagrant: "$6$rounds=10000$/Oz6Oq908zpse1tM$F9vyuvNyfCKtR2FU2GcyCTpyovf3SVGPdpHo8JZUzcqxLYhTN86smrXqREpfXsRVijRVaXlk0dCWRxLuDsjIR0"
+
+web_user: "www-data"
+
 users:
+  - name: "{{ web_user }}"
+    groups:
+      - "{{ web_group }}"
+    keys: []
   - name: "{{ admin_user }}"
     groups:
       - "sudo"

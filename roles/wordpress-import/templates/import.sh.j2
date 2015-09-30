@@ -87,9 +87,7 @@ for dir in blogs.dir uploads; do
   aws s3 sync $wordpress_uploads_s3_dir/$dir $project_uploads_dir/$dir --delete >> $project_bin_dir/import.log
   rm -rf $project_root_dir/web/app/$dir
   ln -s $project_uploads_dir/$dir $project_root_dir/web/app/$dir
-  {% if web_user != "vagrant" %}
   sudo chown -R {{ web_user }}:{{ web_group }} $project_uploads_dir/$dir
-  {% endif %}
 done
 
 # Extract database backup and replace existing database.
