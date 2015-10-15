@@ -1,4 +1,11 @@
 ### HEAD
+* Add nonempty option to config.bindfs.bind_folder ([#382](https://github.com/roots/trellis/pull/382))
+* Add proper hooks for task files during deploys ([#378](https://github.com/roots/trellis/pull/378))
+* Fix logrotate's Nginx postrotate script ([#377](https://github.com/roots/trellis/pull/377))
+* Add static HTML files as fallbacks for Nginx's `index` directive ([#376](https://github.com/roots/trellis/pull/376))
+* Use Windows environment variable to determine number of CPUs ([#366](https://github.com/roots/trellis/pull/366))
+* Check for galaxy roles before `vagrant up` ([#365](https://github.com/roots/trellis/pull/365))
+* Install Xdebug by default in development environment ([#363](https://github.com/roots/trellis/pull/363))
 * Ensure admin_user can connect before disabling root ([#345](https://github.com/roots/trellis/pull/345))
 * Prevent PHP execution in uploads directory ([#356](https://github.com/roots/trellis/pull/356))
 * Update h5bp Nginx configs ([#355](https://github.com/roots/trellis/pull/355))
