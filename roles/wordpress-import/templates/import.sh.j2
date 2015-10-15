@@ -83,6 +83,7 @@ fi
 
 # Update WP uploads.
 echo "Updating WP uploads...."
+mkdir -p $project_root_dir/web/app
 for dir in blogs.dir uploads; do
   aws s3 sync $wordpress_uploads_s3_dir/$dir $project_uploads_dir/$dir --delete >> $project_bin_dir/import.log
   rm -rf $project_root_dir/web/app/$dir
