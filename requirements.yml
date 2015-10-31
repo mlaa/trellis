@@ -23,6 +23,8 @@
 
 - name: newrelic-php
   src: franklinkim.php5-newrelic
+  version: 1.1.0
 
 - name: newrelic-system
   src: sivel.newrelic
+  version: 0.1.3
