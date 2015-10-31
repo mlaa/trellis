@@ -2,6 +2,9 @@ ferm_input_list:
   - type: dport_accept
     dport: [http, https]
     filename: nginx_accept
+  - type: dport_accept
+    dport: [ssh]
+    saddr: ["{{ lookup('pipe', 'curl -4 https://diagnostic.opendns.com/myip') }}"]
   - type: dport_limit
     dport: [ssh]
     seconds: 300
