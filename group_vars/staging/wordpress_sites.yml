@@ -1,4 +1,4 @@
-# Documentation: https://github.com/roots/trellis#wordpress-sites
+# Documentation: https://roots.io/trellis/docs/remote-server-setup/
 wordpress_sites:
   example.com:
     site_hosts:
@@ -15,8 +15,8 @@ wordpress_sites:
     cache:
       enabled: false
       duration: 30s
-    system_cron: true
     env:
+      disable_wp_cron: true
       wp_home: http://staging.example.com
       wp_siteurl: http://staging.example.com/wp
       wp_env: staging
