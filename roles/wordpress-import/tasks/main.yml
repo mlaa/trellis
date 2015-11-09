@@ -24,7 +24,6 @@
     group="{{ admin_user_group }}"
     state="directory"
   with_items:
-    - "{{ private_packages_local_dir }}"
     - "{{ wordpress_config_local_dir }}"
 
 - name: "WordPress Import | create wordpress config subdirectories"
@@ -34,10 +33,6 @@
     group="{{ admin_user_group }}"
     state="directory"
   with_items: "wordpress_sites.keys()"
-
-- name: "WordPress Import | download private packages"
-  sudo: "no"
-  shell: aws s3 sync {{ private_packages_s3_dir }} {{ private_packages_local_dir }} --only-show-errors --delete
 
 - name: "WordPress Import | create .env"
   sudo: "no"

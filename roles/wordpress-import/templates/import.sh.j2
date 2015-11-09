@@ -12,12 +12,10 @@ project_env_file="$project_root_dir/.env"
 nginx_conf_dir="/etc/nginx/sites-available"
 production_domain_regex="{{ item.value.env.wp_domain | regex_replace('\\.', '\\\\.') }}"
 
-private_packages_local_dir="{{ private_packages_local_dir }}"
 wordpress_config_local_dir="{{ wordpress_config_local_dir }}"
 
 mysql_backup_s3_file="{{ mysql_backup_s3_dir }}/commons-db_$current_date.sql.gz"
 wordpress_uploads_s3_dir="{{ wordpress_uploads_s3_dir }}"
-private_packages_s3_dir="{{ private_packages_s3_dir }}"
 
 # Make sure script is not run by root.
 if [ "$(id -u)" = "0" ]; then
@@ -64,10 +62,6 @@ mkdir -p $project_root_dir
 # Download database backup.
 echo "Downloading database backup...."
 aws s3 cp $mysql_backup_s3_file /tmp/mysql.backup.sql.gz >> $project_bin_dir/import.log
-
-# Update private packages.
-echo "Updating private packages...."
-aws s3 sync $private_packages_s3_dir $private_packages_local_dir --delete >> $project_bin_dir/import.log
 
 # Clone project and install dependencies.
 if [ ! -d "$project_root_dir/.git" ]; then
