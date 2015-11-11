@@ -71,9 +71,9 @@ if [ ! -d "$project_root_dir/.git" ]; then
   git remote add origin {{ item.value.repo }}
   git fetch --all
   git checkout -f -t origin/{{ item.value.repo_branch }}
-  echo "Installing dependencies..."
-  composer install --prefer-source
 fi
+echo "Installing dependencies..."
+composer install --prefer-source
 
 # Update WP uploads.
 echo "Updating WP uploads...."
