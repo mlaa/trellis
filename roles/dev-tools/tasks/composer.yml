@@ -44,6 +44,18 @@
     - "composer"
     - "phpcs"
 
+- name: "Composer | add aliases for PHPCS commands"
+  sudo: "no"
+  lineinfile:
+    dest="~/.bashrc"
+    line="alias {{ item.name }}='{{ item.command }}'"
+    regexp="^alias {{ item.name }}="
+    state="present"
+    insertafter="EOF"
+  with_items:
+    - { name: "wpcs", command: "phpcs --standard=WordPress-Core,WordPress-Docs,WordPress-Extra" }
+    - { name: "wpcs-core", command: "phpcs --standard=WordPress-Core" }
+
 - name: "Composer | add GitHub access token"
   sudo: "no"
   template:
