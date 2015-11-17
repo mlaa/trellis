@@ -108,7 +108,7 @@ sudo service nginx restart
 
 # Update database to use development domain.
 echo "Updating database...."
-wp search-replace \
+sudo -u {{ web_user }} wp search-replace \
 --skip-columns=guid \
 --network \
 --url="{{ item.value.env.wp_domain }}" \
