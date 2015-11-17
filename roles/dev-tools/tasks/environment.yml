@@ -18,3 +18,16 @@
   tags:
     - "environment"
     - "editor"
+
+- name: "Environment | set useful aliases"
+  sudo: "no"
+  lineinfile:
+    dest="~/.bashrc"
+    line="alias {{ item.name }}='{{ item.command }}'"
+    regexp="^alias {{ item.name }}="
+    state="present"
+    insertafter="EOF"
+  with_items:
+    - { name: "alog", command: "less +G {{ www_root }}/{{ wordpress_sites.keys()[0] }}/logs/access.log" }
+    - { name: "dlog", command: "less +G {{ www_root }}/{{ wordpress_sites.keys()[0] }}/logs/debug.log" }
+    - { name: "elog", command: "less +G {{ www_root }}/{{ wordpress_sites.keys()[0] }}/logs/error.log" }
