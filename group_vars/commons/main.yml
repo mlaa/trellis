@@ -10,23 +10,49 @@ strip_www: false
 sudoer_passwordless: true
 
 # In addition to the ENV variables used in `wordpress_sites.yml`, define the
-# following variables via host vars or extra vars:
+# following variables via group vars, host vars, or extra vars:
 #
 # aws_default_region
 # aws_access_key_id
 # aws_secret_access_key
 # aws_route53_zone_id
 # composer_github_access_token
-# fedora_proxy_url
 # mysql_root_password
 # mysql_backup_s3_dir
 # newrelic_license_key
+# php5_newrelic_appname
 # wordpress_uploads_s3_dir
 
-# For production hosts, additionally define/override these variables:
+# For mail-sending hosts, define:
 #
 # mail_smtp_server: "server.example.com:port"
 # mail_user
 # mail_password
+
+# For hosts with a remote database, define:
+#
 # mysql_remote_database
-# php5_newrelic_appname
+# wordpress_db_host
+
+# For hosts with Humanities CORE, define:
+#
+# core_humcore_namespace
+# core_humcore_collection_pid
+# core_fedora_protocol
+# core_fedora_host
+# core_fedora_port
+# core_fedora_path
+# core_fedora_login
+# core_fedora_password
+# core_solr_protocol
+# core_solr_host
+# core_solr_port
+# core_solr_path
+# core_solr_core
+# core_ezid_protocol
+# core_ezid_host
+# core_ezid_port
+# core_ezid_path
+# core_ezid_login
+# core_ezid_password
+# core_ezid_prefix

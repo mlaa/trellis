@@ -5,7 +5,7 @@ location /deposits/objects/ {
   proxy_buffers 48 64k;
   proxy_set_header Host $host;
   proxy_set_header X-Real-IP $remote_addr;
-  proxy_pass {{ fedora_proxy_url | default('http://127.0.0.1:8443') }}objects/;
+  proxy_pass {{ core_fedora_protocol }}{{ core_fedora_host }}:{{ core_fedora_port }}{{ core_fedora_path }}/objects/;
 }
 
 location /deposits/oai/ {
@@ -14,5 +14,5 @@ location /deposits/oai/ {
   proxy_buffers 48 64k;
   proxy_set_header Host $host;
   proxy_set_header X-Real-IP $remote_addr;
-  proxy_pass {{ fedora_proxy_url | default('http://127.0.0.1:8443') }}oai/;
+  proxy_pass {{ core_fedora_protocol }}{{ core_fedora_host }}:{{ core_fedora_port }}{{ core_fedora_path }}/oai/;
 }
