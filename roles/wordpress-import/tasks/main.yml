@@ -17,32 +17,11 @@
     state="directory"
   with_dict: "wordpress_sites"
 
-- name: "WordPress Import | create wordpress resource directories"
-  file:
-    path="{{ item }}"
-    owner="{{ admin_user }}"
-    group="{{ admin_user_group }}"
-    state="directory"
-  with_items:
-    - "{{ wordpress_config_local_dir }}"
-
-- name: "WordPress Import | create wordpress config subdirectories"
-  file:
-    path="{{ wordpress_config_local_dir }}/{{ item }}"
-    owner="{{ admin_user }}"
-    group="{{ admin_user_group }}"
-    state="directory"
-  with_items: "wordpress_sites.keys()"
-
-- name: "WordPress Import | create .env"
-  sudo: "no"
-  template:
-    src="env.j2"
-    dest="{{ wordpress_config_local_dir }}/{{ item.key }}/.env"
-  with_dict: "wordpress_sites"
-
 - include: "dev.yml"
   when: "'production' not in group_names"
+
+- include: "prod.yml"
+  when: "'production' in group_names"
 
 - include: "mysql.yml"
 - include: "packages.yml"

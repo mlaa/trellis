@@ -8,6 +8,13 @@
     state="directory"
   with_dict: "wordpress_sites"
 
+- name: "WordPress Import | create .env template"
+  sudo: "no"
+  template:
+    src="env.j2"
+    dest="{{ www_root }}/{{ item.key }}/bin/.env.template"
+  with_dict: "wordpress_sites"
+
 - name: "WordPress Import | commons install script"
   template:
     src="import.sh.j2"
