@@ -55,6 +55,8 @@
   with_items:
     - { name: "wpcs", command: "phpcs --standard=WordPress-Core,WordPress-Docs,WordPress-Extra" }
     - { name: "wpcs-core", command: "phpcs --standard=WordPress-Core" }
+    - { name: "wpcbf", command: "phpcbf --standard=WordPress-Core,WordPress-Docs,WordPress-Extra" }
+    - { name: "wpcbf-core", command: "phpcbf --standard=WordPress-Core" }
 
 - name: "Composer | add GitHub access token"
   sudo: "no"
