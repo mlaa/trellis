@@ -4,6 +4,14 @@ wordpress_sites:
   commons:
     env:
       admin_email: "{{ wordpress_admin_email | default('admin@example.com') }}"
+      auth_key: "{{ wordpress_auth_key | default(omit) }}"
+      auth_salt: "{{ wordpress_auth_salt | default(omit) }}"
+      logged_in_key: "{{ wordpress_logged_in_key | default(omit) }}"
+      logged_in_salt: "{{ wordpress_logged_in_salt | default(omit) }}"
+      nonce_key: "{{ wordpress_nonce_key | default(omit) }}"
+      nonce_salt: "{{ wordpress_nonce_salt | default(omit) }}"
+      secure_auth_key: "{{ wordpress_secure_auth_key | default(omit) }}"
+      secure_auth_salt: "{{ wordpress_secure_auth_salt | default(omit) }}"
       cbox_auth_api_key: "{{ cbox_auth_api_key | default(omit) }}"
       cbox_auth_api_secret: "{{ cbox_auth_api_secret | default(omit) }}"
       cbox_auth_api_url: "{{ cbox_auth_api_url | default(omit) }}"
