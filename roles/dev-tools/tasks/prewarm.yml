@@ -1,0 +1,36 @@
+---
+
+- name: "Composer | create prewarm temp directory"
+  sudo: "no"
+  file:
+    path="/tmp/composer-prewarm"
+    state="directory"
+  tags:
+    - "prewarm"
+    - "composer"
+
+- name: "Composer | download composer manifest"
+  sudo: "no"
+  get_url:
+    url="{{ prewarm_composer_manifest }}"
+    dest="/tmp/composer-prewarm/composer.json"
+  tags:
+    - "prewarm"
+    - "composer"
+
+- name: "Composer | install and cache dependencies"
+  sudo: "no"
+  shell: composer install
+    chdir="/tmp/composer-prewarm"
+  tags:
+    - "prewarm"
+    - "composer"
+
+- name: "Composer | remove prewarm temp directory"
+  sudo: "no"
+  file:
+    path="/tmp/composer-prewarm"
+    state="absent"
+  tags:
+    - "prewarm"
+    - "composer"
