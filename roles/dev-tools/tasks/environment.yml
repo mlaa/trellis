@@ -1,5 +1,17 @@
 ---
 
+- name: "Environment | use google nameserver"
+  lineinfile:
+    dest="/etc/resolv.conf"
+    create="yes"
+    state="present"
+    line="nameserver 8.8.8.8"
+    regexp="^nameserver "
+  when: "'vagrant' in group_names"
+  tags:
+    - "environment"
+    - "dns"
+
 - name: "Environment | add github.com to known hosts"
   lineinfile:
     dest="/etc/ssh/ssh_known_hosts"
