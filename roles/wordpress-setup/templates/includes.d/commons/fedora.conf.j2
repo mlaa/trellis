@@ -8,11 +8,11 @@ location /deposits/objects/ {
   proxy_pass {{ core_fedora_protocol }}{{ core_fedora_host }}:{{ core_fedora_port }}{{ core_fedora_path }}/objects/;
 }
 
+{% if core_oai_host is defined %}
 location /deposits/oai/ {
   proxy_buffering on;
   proxy_buffer_size 1k;
   proxy_buffers 48 64k;
-  proxy_set_header Host $host;
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_pass {{ core_fedora_protocol }}{{ core_fedora_host }}:{{ core_fedora_port }}{{ core_fedora_path }}/oai/;
+  proxy_pass {{ core_oai_protocol }}{{ core_oai_host }}{{ (core_oai_port == '') | ternary('', ':') }}{{ core_oai_port }}{{ core_oai_path }};
 }
+{% endif %}
