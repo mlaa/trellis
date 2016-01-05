@@ -18,6 +18,8 @@ wordpress_sites:
       core_humcore_namespace: "{{ core_humcore_namespace | default(omit) }}"
       core_humcore_collection_pid: "{{ core_humcore_collection_pid | default(omit) }}"
       core_humcore_temp_dir: "{{ www_root }}/commons/current/web/app/uploads/humcore"
+      core_http_debug: "false"
+      core_error_log: "{{ www_root }}/commons/logs/humcore_error.log"
       core_fedora_protocol: "{{ core_fedora_protocol | default(omit) }}"
       core_fedora_host: "{{ core_fedora_host | default(omit) }}"
       core_fedora_port: "{{ core_fedora_port | default(omit) }}"
