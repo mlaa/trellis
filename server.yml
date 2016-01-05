@@ -5,7 +5,6 @@
 
   roles:
     - { role: common, tags: [common] }
-    - { role: aws, tags: [aws] }
     - { role: fail2ban, tags: [fail2ban] }
     - { role: ferm, tags: [ferm] }
     - { role: ntp }
@@ -22,6 +21,8 @@
     - { role: newrelic-php, tags: [newrelic] }
     - { role: newrelic-system, tags: [newrelic] }
     - { role: wp-cli, tags: [wp-cli] }
+    - { role: aws, tags: [aws] }
+    - { role: backup, tags: [backup] }
     - { role: dev-tools, tags: [dev-tools] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
     - { role: wordpress-import, tags: [wordpress, wordpress-import] }
