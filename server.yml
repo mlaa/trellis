@@ -1,13 +1,22 @@
 ---
-- name: WordPress Server - Install LEMP Stack with PHP 5.6 and MariaDB MySQL
-  hosts: web
-  sudo: yes
+- include: variable-check.yml
+  vars:
+    playbook: server.yml
 
+- name: Determine Remote User
+  hosts: web:&{{ env }}
+  gather_facts: false
+  roles:
+    - { role: remote-user, tags: [remote-user, always] }
+
+- name: WordPress Server - Install LEMP Stack with PHP 5.6 and MariaDB MySQL
+  hosts: web:&{{ env }}
+  sudo: yes
   roles:
     - { role: common, tags: [common] }
     - { role: fail2ban, tags: [fail2ban] }
     - { role: ferm, tags: [ferm] }
-    - { role: ntp }
+    - { role: ntp, tags: [ntp] }
     - { role: users, tags: [users] }
     - { role: sshd, tags: [sshd] }
     - { role: mariadb, tags: [mariadb], when: not mysql_remote_database }
