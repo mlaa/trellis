@@ -1,0 +1,12 @@
+{% if core_oai_host is defined %}
+location /deposits/oai/ {
+  proxy_buffering on;
+  proxy_buffer_size 1k;
+  proxy_buffers 48 64k;
+  proxy_set_header Accept-Encoding '';
+  proxy_pass {{ core_oai_protocol }}{{ core_oai_host }}{{ (core_oai_port == '') | ternary('', ':') }}{{ core_oai_port }}{{ core_oai_path }};
+  sub_filter_types text/xml;
+  sub_filter_once on;
+  sub_filter 'href="/assets/oai2.xsl"' 'href="/app/plugins/humcore/xsl/oai2.xsl"';
+}
+{% endif %}
