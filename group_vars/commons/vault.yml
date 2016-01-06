@@ -1,0 +1,21 @@
+---
+
+# We keep sensitive variables in system-level group_vars (on OS X, in
+# /usr/local/etc/ansible/group_vars), so these variables are just references
+# don't need to be encrypted with Ansible Vault.
+
+# Our Vagrant set up requires password auth to Vagrant, and Trellis is
+# aggressive about setting passwords for the admin user. Since we want
+# Vagrant to be the admin user, we need to make sure we don't nuke the
+# default password ("vagrant").
+
+# http://docs.ansible.com/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+# `mkpasswd --method=SHA-512 --rounds=10000`
+vault_sudoer_passwords:
+  vagrant: "$6$rounds=10000$/Oz6Oq908zpse1tM$F9vyuvNyfCKtR2FU2GcyCTpyovf3SVGPdpHo8JZUzcqxLYhTN86smrXqREpfXsRVijRVaXlk0dCWRxLuDsjIR0"
+
+# Variables to accompany `group_vars/development/wordpress_sites.yml`
+vault_wordpress_sites:
+  commons:
+    env:
+      db_password: "{{ wordpress_db_password | default('dbpass') }}"

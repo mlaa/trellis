@@ -45,7 +45,6 @@ wordpress_sites:
       db_host: "{{ wordpress_db_host | default('localhost') }}"
       db_name: "{{ wordpress_db_name | default('wordpress') }}"
       db_user: "{{ wordpress_db_user | default('dbuser') }}"
-      db_password: "{{ wordpress_db_password | default('dbpass') }}"
       global_smtp_from: "{{ wordpress_smtp_from | default(omit) }}"
       wp_env: "{{ ('production' in group_names) | ternary('production', 'development') }}"
       wp_home: "https://commons.mla.org"
