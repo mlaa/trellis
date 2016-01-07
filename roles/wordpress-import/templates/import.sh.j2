@@ -55,24 +55,24 @@ case "$fqdn" in
     echo "FQDN: $fqdn" ;;
 esac
 
-# Create project directory
-mkdir -p $project_root_dir
-
 # Download database backup.
 echo "Downloading database backup...."
 aws s3 cp $mysql_backup_s3_file /tmp/mysql.backup.sql.gz >> $project_bin_dir/import.log
 
+# Create project directory
+mkdir -p $project_root_dir
+cd $project_root_dir
+
 # Clone project and install dependencies.
 if [ ! -d "$project_root_dir/.git" ]; then
   echo "Cloning project repo..."
-  cd $project_root_dir
   git init
   git remote add origin {{ item.value.repo }}
   git fetch --all
   git checkout -f -t origin/{{ item.value.repo_branch }}
 fi
 echo "Installing dependencies..."
-composer install --prefer-source
+composer install
 
 # Update WP uploads.
 echo "Updating WP uploads...."
