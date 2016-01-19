@@ -31,7 +31,7 @@
 - name: Remove unmanaged files from includes.d
   file: path="{{ item }}"
         state=absent
-  with_items: "{{ nginx_includes_existing.stdout_lines | difference(nginx_includes_managed.results | default([]) | map(attribute='item') | map('regex_replace', '(.*)\\.j2', '/etc/nginx/includes.d/\\\\1') | list) }}"
+  with_items: "{{ nginx_includes_existing.stdout_lines | difference(nginx_includes_managed.results | default([]) | map(attribute='item') | map('regex_replace', '(.*)\\.j2', '/etc/nginx/includes.d/\\1') | list) }}"
   notify: reload nginx
 
 - name: Create WordPress configuration for Nginx
