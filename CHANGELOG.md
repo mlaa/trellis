@@ -1,4 +1,13 @@
 ### HEAD
+* Fix Nginx includes for Ansible 2.0 ([#473](https://github.com/roots/trellis/pull/473))
+* Use `ondrej/php` PPA since `ondrej/php-7.0` is deprecated ([#479](https://github.com/roots/trellis/pull/479))
+* Fix Ansible 2.x deploys and require version 2.x ([#478](https://github.com/roots/trellis/pull/478))
+* Update to PHP 7.0 and remove HHVM ([#432](https://github.com/roots/trellis/pull/432))
+* Windows: Sync `hosts` dir with proper permissions ([#460](https://github.com/roots/trellis/pull/460))
+* Fix `inventory_file` variable in connection tests ([#470](https://github.com/roots/trellis/pull/470))
+* Fix conditional logic for permalink setup task ([#467](https://github.com/roots/trellis/pull/467))
+* Fix permalink setup during WordPress Install ([#466](https://github.com/roots/trellis/pull/466))
+* Fix deploy pre-flight check for verifying repo ([#463](https://github.com/roots/trellis/pull/463))
 * Ansible 2.0 compatibility ([#461](https://github.com/roots/trellis/pull/461))
 * Add pre-flight checks for common deploy problems ([#459](https://github.com/roots/trellis/pull/459))
 * Prevent duplicate hosts entries made by `vagrant-hostsupdater` ([#458](https://github.com/roots/trellis/pull/458))
