@@ -26,7 +26,7 @@
     - "aws-route53"
 
 - name: "DNS | register init script"
-  shell:
+  command:
     update-rc.d aws-route53 defaults 90
   tags:
     - "aws-route53"

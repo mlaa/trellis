@@ -24,7 +24,7 @@
     - "known-hosts"
 
 - name: "Environment | set default editor to vim"
-  shell: update-alternatives --set editor /usr/bin/vim.basic
+  command: update-alternatives --set editor /usr/bin/vim.basic
   register: "update_editor_result"
   changed_when: "'using /usr/bin/vim.basic' in update_editor_result.stdout"
   tags:

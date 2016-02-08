@@ -9,7 +9,7 @@
     - "aws-ec2-user-data"
 
 - name: "EC2 User Data | register init script"
-  shell:
+  command:
     update-rc.d aws-ec2-user-data defaults 80
   tags:
     - "aws-ec2-user-data"

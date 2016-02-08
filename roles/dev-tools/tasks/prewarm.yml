@@ -17,7 +17,7 @@
     - "composer"
 
 - name: "Composer | install and cache dependencies"
-  shell: composer install
+  command: composer install
     chdir="/tmp/composer-prewarm"
   tags:
     - "prewarm"

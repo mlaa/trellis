@@ -11,15 +11,15 @@
     - "composer"
 
 - name: "Composer | install PHPUnit"
-  shell: composer global require "phpunit/phpunit=@stable"
-    creates="~/.composer/vendor/bin/phpunit"
+  command: composer global require "phpunit/phpunit=@stable"
+    creates="/home/{{ admin_user }}/.config/composer/vendor/bin/phpunit"
   tags:
     - "composer"
     - "phpunit"
 
 - name: "Composer | install PHPCS"
-  shell: composer global require "squizlabs/php_codesniffer=@stable"
-    creates="~/.composer/vendor/bin/phpcs"
+  command: composer global require "squizlabs/php_codesniffer=@stable"
+    creates="/home/{{ admin_user }}/.config/composer/vendor/bin/phpcs"
   tags:
     - "composer"
     - "phpcs"
@@ -33,7 +33,7 @@
     - "phpcs"
 
 - name: "Composer | add PHPCS WP Coding Standards to PHPCS"
-  shell: ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.phpcs
+  command: /home/{{ admin_user }}/.config/composer/vendor/bin/phpcs --config-set installed_paths /home/{{ admin_user }}/.config/phpcs
   register: "phpcs_wpcs_result"
   changed_when: "'added successfully' in phpcs_wpcs_result.stdout"
   failed_when: "'successfully' not in phpcs_wpcs_result.stdout"
