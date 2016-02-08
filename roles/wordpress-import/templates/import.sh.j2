@@ -6,7 +6,7 @@
 # Configuration
 current_date=`date +%Y%m%d`
 project_bin_dir="{{ www_root }}/{{ item.key }}/bin"
-project_uploads_dir="{{ www_root }}/{{ item.key }}/uploads"
+project_uploads_dir="{{ www_root }}/{{ item.key }}/shared"
 project_root_dir="{{ www_root }}/{{ item.key }}/current"
 project_env_file_template="$project_bin_dir/.env.template"
 project_env_file="$project_root_dir/.env"
@@ -77,12 +77,22 @@ composer install
 # Update WP uploads.
 echo "Updating WP uploads...."
 mkdir -p $project_root_dir/web/app
-for dir in blogs.dir uploads; do
-  sudo aws s3 sync $wordpress_uploads_s3_dir/$dir $project_uploads_dir/$dir --delete >> $project_bin_dir/import.log
-  rm -rf $project_root_dir/web/app/$dir
-  ln -s $project_uploads_dir/$dir $project_root_dir/web/app/$dir
-  sudo chown -R {{ web_user }}:{{ web_group }} $project_uploads_dir/$dir
-done
+
+# Sync uploads and set correct permissions.
+sudo aws s3 sync $wordpress_uploads_s3_dir/uploads $project_uploads_dir/uploads --exclude 'group-documents/*' --exclude 'humcore/*' --exclude 'cache/*' >> $project_bin_dir/import.log
+sudo chown -R {{ web_user }}:{{ web_group }} $project_uploads_dir/uploads
+
+# Create symlinks.
+rm -rf $project_root_dir/web/app/blogs.dir $project_root_dir/web/app/uploads
+ln -s $project_uploads_dir/blogs.dir $project_root_dir/web/app/blogs.dir
+ln -s $project_uploads_dir/uploads $project_root_dir/web/app/uploads
+
+# Notify user that we have not synced everything.
+echo "Skipped syncing the following directories within ${project_uploads_dir}:"
+echo "blogs.dir, uploads/cache, uploads/group-documents, uploads/humcore"
+echo "Adapt the following commands to sync them anyway (watch free disk space!):"
+echo "sudo aws s3 sync $wordpress_uploads_s3_dir/blogs.dir $project_uploads_dir/blogs.dir --delete"
+echo "sudo chown -R {{ web_user }}:{{ web_group }} $project_uploads_dir/blogs.dir"
 
 # Extract database backup and replace existing database.
 echo "Loading database backup...."
