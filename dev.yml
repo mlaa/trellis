@@ -20,8 +20,6 @@
     - { role: nginx, tags: [nginx] }
     - { role: logrotate, tags: [logrotate] }
     - { role: composer, tags: [composer] }
-    - { role: newrelic-php, tags: [newrelic] }
-    - { role: newrelic-system, tags: [newrelic] }
     - { role: wp-cli, tags: [wp-cli] }
     - { role: dev-tools, tags: [dev-tools] }
     - { role: backup, tags: [backup] }
