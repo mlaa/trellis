@@ -1,15 +1,5 @@
 ---
 
-- name: "Composer | add global composer vendor binary path"
-  become: "yes"
-  lineinfile:
-    dest="/etc/environment"
-    regexp="^PATH=\"(((?!:~/.composer/vendor/bin).)*)\""
-    line="PATH=\"\1:~/.composer/vendor/bin\""
-    backrefs="yes"
-  tags:
-    - "composer"
-
 - name: "Composer | install PHPUnit"
   command: composer global require "phpunit/phpunit=@stable"
     creates="/home/{{ admin_user }}/.config/composer/vendor/bin/phpunit"

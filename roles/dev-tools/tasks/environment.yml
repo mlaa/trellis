@@ -31,6 +31,16 @@
     - "environment"
     - "editor"
 
+- name: "Environment | add local composer vendor binary path"
+  lineinfile:
+    dest="/etc/environment"
+    regexp="^PATH=\"(((?!:~/.config/composer/vendor/bin).)*)\""
+    line="PATH=\"\1:~/.config/composer/vendor/bin\""
+    backrefs="yes"
+  tags:
+    - "environment"
+    - "composer"
+
 - name: "Environment | set useful aliases"
   become_user: "{{ admin_user }}"
   lineinfile:
