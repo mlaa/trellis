@@ -10,7 +10,6 @@ sshd_permit_root_login: false
 strip_www: false
 sudoer_passwordless: true
 sudoer_passwords: "{{ vault_sudoer_passwords }}"
-xdebug_install: false
 
 # In addition to the ENV variables used in `wordpress_sites.yml`, define the
 # following variables via group vars, host vars, or extra vars:
