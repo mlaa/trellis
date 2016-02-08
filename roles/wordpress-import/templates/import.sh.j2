@@ -97,6 +97,7 @@ echo "sudo chown -R {{ web_user }}:{{ web_group }} $project_uploads_dir/blogs.di
 # Extract database backup and replace existing database.
 echo "Loading database backup...."
 gunzip -c /tmp/mysql.backup.sql.gz | mysql {{ item.value.env.db_name }}
+rm /tmp/mysql.backup.sql.gz
 
 # Populate .env with development domain.
 echo "Updating project environment...."
