@@ -32,9 +32,9 @@
     - "editor"
 
 - name: "Environment | set useful aliases"
-  sudo: "no"
+  become_user: "{{ admin_user }}"
   lineinfile:
-    dest="~/.bashrc"
+    dest="/home/{{ admin_user }}/.bashrc"
     line="alias {{ item.name }}='{{ item.command }}'"
     regexp="^alias {{ item.name }}="
     state="present"
@@ -43,3 +43,6 @@
     - { name: "alog", command: "less +G {{ www_root }}/{{ wordpress_sites.keys()[0] }}/logs/access.log" }
     - { name: "dlog", command: "less +G {{ www_root }}/{{ wordpress_sites.keys()[0] }}/logs/debug.log" }
     - { name: "elog", command: "less +G {{ www_root }}/{{ wordpress_sites.keys()[0] }}/logs/error.log" }
+  tags:
+    - "environment"
+    - "aliases"

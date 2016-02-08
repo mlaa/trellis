@@ -9,7 +9,7 @@
   with_dict: "wordpress_sites"
 
 - name: "WordPress Import | create .env template"
-  sudo: "no"
+  become_user: "{{ admin_user }}"
   template:
     src="env.j2"
     dest="{{ www_root }}/{{ item.key }}/bin/.env.template"

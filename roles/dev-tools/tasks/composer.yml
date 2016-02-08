@@ -1,6 +1,7 @@
 ---
 
 - name: "Composer | add global composer vendor binary path"
+  become: "yes"
   lineinfile:
     dest="/etc/environment"
     regexp="^PATH=\"(((?!:~/.composer/vendor/bin).)*)\""
@@ -10,7 +11,6 @@
     - "composer"
 
 - name: "Composer | install PHPUnit"
-  sudo: "no"
   shell: composer global require "phpunit/phpunit=@stable"
     creates="~/.composer/vendor/bin/phpunit"
   tags:
@@ -18,7 +18,6 @@
     - "phpunit"
 
 - name: "Composer | install PHPCS"
-  sudo: "no"
   shell: composer global require "squizlabs/php_codesniffer=@stable"
     creates="~/.composer/vendor/bin/phpcs"
   tags:
@@ -26,16 +25,14 @@
     - "phpcs"
 
 - name: "Composer | install PHPCS WP Coding Standards"
-  sudo: "no"
   git:
     repo="https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git"
-    dest="~/.phpcs"
+    dest="/home/{{ admin_user }}/.config/phpcs"
   tags:
     - "composer"
     - "phpcs"
 
 - name: "Composer | add PHPCS WP Coding Standards to PHPCS"
-  sudo: "no"
   shell: ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.phpcs
   register: "phpcs_wpcs_result"
   changed_when: "'added successfully' in phpcs_wpcs_result.stdout"
@@ -45,9 +42,8 @@
     - "phpcs"
 
 - name: "Composer | add aliases for PHPCS commands"
-  sudo: "no"
   lineinfile:
-    dest="~/.bashrc"
+    dest="/home/{{ admin_user }}/.bashrc"
     line="alias {{ item.name }}='{{ item.command }}'"
     regexp="^alias {{ item.name }}="
     state="present"
@@ -59,10 +55,9 @@
     - { name: "wpcbf-core", command: "phpcbf --standard=WordPress-Core" }
 
 - name: "Composer | add GitHub access token"
-  sudo: "no"
   template:
     src="auth.json.j2"
-    dest="~/.composer/auth.json"
+    dest="/home/{{ admin_user }}/.config/composer/auth.json"
   when: "composer_github_access_token is defined"
   tags:
     - "composer"

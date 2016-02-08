@@ -3,5 +3,9 @@
 - include: "packages.yml"
 - include: "environment.yml"
 - include: "nodejs.yml"
+
 - include: "composer.yml"
+  become_user: "{{ admin_user }}"
+
 - include: "wp-cli.yml"
+  become_user: "{{ admin_user }}"

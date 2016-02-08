@@ -1,7 +1,7 @@
 ---
 
 - name: "WordPress Import | create .env"
-  sudo: "no"
+  become_user: "{{ admin_user }}"
   template:
     src="env.j2"
     dest="{{ www_root }}/{{ item.key }}/current/.env"

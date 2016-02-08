@@ -1,7 +1,7 @@
 ---
 - name: "WordPress Server: Install LEMP Stack with PHP 7.0 and MariaDB MySQL"
   hosts: web:&development
-  sudo: yes
+  become: yes
 
   roles:
     - { role: packer, tags: [packer] }

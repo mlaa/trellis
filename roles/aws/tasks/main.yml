@@ -1,6 +1,7 @@
 ---
 
 - include: "aws-credentials.yml"
+  become_user: "{{ admin_user }}"
   when: "'aws' not in group_names"
 
 - include: "aws-ec2-user-data.yml"

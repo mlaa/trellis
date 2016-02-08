@@ -23,10 +23,10 @@
     - "mysql"
 
 - name: "WordPress Import | mysql credentials file"
-  sudo: "no"
+  become_user: "{{ admin_user }}"
   template:
     src="user.my.cnf.j2"
-    dest="~/.my.cnf"
+    dest="/home/{{ admin_user }}/.my.cnf"
     mode="0600"
   when: "not mysql_remote_database"
   tags:
