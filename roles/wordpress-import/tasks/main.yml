@@ -6,7 +6,7 @@
     owner="{{ admin_user }}"
     group="{{ admin_user_group }}"
     state="directory"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"
 
 - name: "WordPress Import | restore logs permissions"
   file:
@@ -15,7 +15,7 @@
     group="{{ web_group }}"
     mode="0755"
     state="directory"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"
 
 - include: "dev.yml"
   when: "'production' not in group_names"

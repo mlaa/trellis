@@ -5,4 +5,4 @@
   template:
     src="env.j2"
     dest="{{ www_root }}/{{ item.key }}/current/.env"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"

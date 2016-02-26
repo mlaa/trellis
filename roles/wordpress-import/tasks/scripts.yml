@@ -6,14 +6,14 @@
     owner="{{ admin_user }}"
     group="{{ admin_user_group }}"
     state="directory"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"
 
 - name: "WordPress Import | create .env template"
   become_user: "{{ admin_user }}"
   template:
     src="env.j2"
     dest="{{ www_root }}/{{ item.key }}/bin/.env.template"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"
 
 - name: "WordPress Import | commons install script"
   template:
@@ -22,14 +22,14 @@
     owner="{{ admin_user }}"
     group="{{ admin_user_group }}"
     mode="0744"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"
 
 - name: "WordPress Import | self-signed certificate script"
   template:
     src="self-signed-certificate.sh.j2"
     dest="{{ www_root }}/{{ item.key }}/bin/self-signed-certificate.sh"
     mode="0755"
-  with_dict: "wordpress_sites"
+  with_dict: "{{ wordpress_sites }}"
   tags:
     - "self-signed"
 
