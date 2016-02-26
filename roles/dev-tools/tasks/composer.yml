@@ -44,13 +44,5 @@
     - { name: "wpcbf", command: "phpcbf --standard=WordPress-Core,WordPress-Docs,WordPress-Extra" }
     - { name: "wpcbf-core", command: "phpcbf --standard=WordPress-Core" }
 
-- name: "Composer | add GitHub access token"
-  template:
-    src="auth.json.j2"
-    dest="/home/{{ admin_user }}/.config/composer/auth.json"
-  when: "composer_github_access_token is defined"
-  tags:
-    - "composer"
-
 - include: "prewarm.yml"
   when: "prewarm_composer_manifest is defined"
