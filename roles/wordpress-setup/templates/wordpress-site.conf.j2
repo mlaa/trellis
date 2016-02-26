@@ -108,7 +108,7 @@ server {
     listen 80;
   {% endif -%}
 
-  server_name {{ host | match('^www\\.(.*)') | ternary(host | regex_replace('^www\\.(.*)', '\\1'), 'www.' + host ) }};
+  server_name {{ host | reverse_www }};
   return 301 $scheme://{{ host }}$request_uri;
 }
 {% endfor %}
