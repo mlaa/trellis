@@ -7,7 +7,6 @@ mysql_root_password: "{{ vault_mysql_root_password }}"
 php_display_errors: "Off"
 php_sendmail_path: "/usr/sbin/sendmail -t -i"
 sshd_permit_root_login: false
-strip_www: false
 sudoer_passwordless: true
 sudoer_passwords: "{{ vault_sudoer_passwords }}"
 
