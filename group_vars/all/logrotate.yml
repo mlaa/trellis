@@ -10,7 +10,7 @@ logrotate_scripts:
       - compress
       - delaycompress
       - notifempty
-      - create 0640 {{ web_user }} {{ web_group }}
+      - create 0660 {{ web_user }} {{ web_group }}
       - sharedscripts
     scripts:
       prerotate: |
