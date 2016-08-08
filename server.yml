@@ -9,6 +9,14 @@
   roles:
     - { role: remote-user, tags: [remote-user, always] }
 
+- name: Install prerequisites
+  hosts: web:&{{ env }}
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: Install Python 2.x
+      raw: sudo apt-get install -qq -y python-simplejson
+
 - name: WordPress Server - Install LEMP Stack with PHP 7.0 and MariaDB MySQL
   hosts: web:&{{ env }}
   become: yes
@@ -19,8 +27,8 @@
     - { role: ntp, tags: [ntp] }
     - { role: users, tags: [users] }
     - { role: sshd, tags: [sshd] }
-    - { role: mariadb, tags: [mariadb], when: not mysql_remote_database }
-    - { role: nullmailer, tags: [nullmailer mail] }
+    - { role: mariadb, tags: [mariadb] }
+    - { role: ssmtp, tags: [ssmtp, mail] }
     - { role: php, tags: [php] }
     - { role: memcached, tags: [memcached] }
     - { role: nginx, tags: [nginx] }
@@ -29,8 +37,5 @@
     - { role: newrelic-php, tags: [newrelic] }
     - { role: newrelic-system, tags: [newrelic] }
     - { role: wp-cli, tags: [wp-cli] }
-    - { role: aws, tags: [aws] }
-    - { role: backup, tags: [backup] }
-    - { role: dev-tools, tags: [dev-tools] }
-    - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
-    - { role: wordpress-import, tags: [wordpress, wordpress-import] }
+    - { role: letsencrypt, tags: [letsencrypt], when: letsencrypt_enabled }
+    - { role: wordpress-setup, tags: [wordpress, wordpress-setup, letsencrypt] }
