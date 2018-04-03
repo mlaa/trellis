@@ -14,6 +14,8 @@ users:
       - "sudo"
       - "{{ web_group }}"
     keys:
-      - "https://github.com/chriszarate.keys"
       - "https://github.com/rekmla.keys"
       - "https://github.com/modelm.keys"
+      - "https://github.com/Es0teric.keys"
+      - "https://github.com/nalonsopress.keys"
+        #- "https://github.com/skoranda.keys"
